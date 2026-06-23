@@ -133,6 +133,7 @@ class S3StateStore(StateStore):
         def _hmac(key: bytes, msg: str) -> bytes:
             return hmac.new(key, msg.encode(), hashlib.sha256).digest()
 
+        assert self.secret is not None  # garanti si S3Backend instancié (creds présents)
         kdate = _hmac(("AWS4" + self.secret).encode(), datestamp)
         kregion = _hmac(kdate, self.region)
         kservice = _hmac(kregion, "s3")

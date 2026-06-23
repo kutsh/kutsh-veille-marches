@@ -117,6 +117,7 @@ class BasecampPublisher:
         return "skip:no-credentials"
 
     def _post_campfire(self, html: str) -> None:
+        assert self.cfg.basecamp_chatbot_lines_url is not None  # garanti par basecamp_via_campfire
         body = json.dumps({"content": html}).encode()
         _http(
             self.cfg.basecamp_chatbot_lines_url,
