@@ -98,10 +98,12 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "kutsh-crm" },
-    { name = "playwright" },
 ]
 
 [package.optional-dependencies]
+browser = [
+    { name = "playwright" },
+]
 dev = [
     { name = "pytest" },
     { name = "ruff" },
@@ -110,11 +112,11 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "kutsh-crm", git = "https://github.com/kutsh/kutsh-crm.git" },
-    { name = "playwright", specifier = ">=1.40" },
+    { name = "playwright", marker = "extra == 'browser'", specifier = ">=1.40" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6" },
 ]
-provides-extras = ["dev"]
+provides-extras = ["browser", "dev"]
 
 [[package]]
 name = "packaging"

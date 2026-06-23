@@ -4,15 +4,16 @@ version = "0.1.0"
 description = "Veille marchés publics Kutsh — scrape nukema, filtre/analyse les consultations urbanisme, poste sur Basecamp + Twenty"
 requires-python = ">=3.12"
 dependencies = [
-    # Scrape : l'API JSON de nukema est appelable en HTTP direct (urllib stdlib),
-    # mais Playwright sert de repli pour amorcer une session navigateur si besoin
-    # (ex. cookies/anti-bot) et pour tenter le téléchargement des DCE.
-    "playwright>=1.40",
+    # Chemin nominal = l'API JSON de nukema, appelable en HTTP direct (urllib stdlib)
+    # → AUCUNE dépendance navigateur en core. Playwright = repli optionnel (extra `browser`).
     # Client Twenty partagé (cf. spec : ne pas dupliquer un client CRM).
     "kutsh-crm @ git+https://github.com/kutsh/kutsh-crm.git",
 ]
 
 [project.optional-dependencies]
+# Repli navigateur (amorçage session / anti-bot). Inutile pour le chemin API JSON ;
+# non installé dans le worker Prefect (image légère).
+browser = ["playwright>=1.40"]
 dev = [
     "pytest>=8",
     "ruff>=0.6",
