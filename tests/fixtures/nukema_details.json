@@ -1,0 +1,39 @@
+{
+  "3007885": {
+    "id": 3007885,
+    "ref": "235366",
+    "internalRef": "26_RM_07",
+    "title": "Numérisation des dossiers d'urbanisme de Rennes Métropole",
+    "description": "L'objectif du marché prévoit l'achat d'un service de numérisation des dossiers d'<b class=\"text-highlight\">autorisations</b> d'urbanisme et leur transfert par API vers le logiciel d'instruction. Le marché couvre la dématérialisation des dossiers ADS, l'instruction et la reprise des dossiers archivés.",
+    "buyer": {"reason": "RENNES METROPOLE / SFMC - Service Finances Marchés", "emails": [], "nuts": []},
+    "closedBy": "2026-07-30T10:00:00Z",
+    "market": "SERVICES",
+    "procedure": {"label": "Appel d'offres ouvert"},
+    "attachments": [
+      {"label": "26_RM_07_Numerisation_CCTP.docx", "lien": "/attachments?uuid=cctp-uuid", "type": "dce", "taille": 981444, "source": "https://marches.megalis.bretagne.bzh/"},
+      {"label": "26_RM_07_Numerisation_RC.pdf", "lien": "/attachments?uuid=rc-uuid", "type": "rc", "taille": 287443, "source": "https://marches.megalis.bretagne.bzh/"}
+    ]
+  },
+  "2997303": {
+    "id": 2997303,
+    "ref": "387544-2026",
+    "title": "Conception Réalisation (CR) pour la construction d'environ 70 logements",
+    "description": "Conception-réalisation pour la construction de 70 logements collectifs. Travaux de bâtiment, VRD et espaces verts.",
+    "buyer": {"reason": "OPH du Grand Est", "emails": [], "nuts": []},
+    "closedBy": "2026-08-15T10:00:00Z",
+    "market": "WORKS",
+    "procedure": {"label": "Marché de Conception-Réalisation"},
+    "attachments": []
+  },
+  "2987466": {
+    "id": 2987466,
+    "ref": "547233",
+    "title": "MARCHE DE CONTROLE TECHNIQUE RENOVATION DES BATIMENTS",
+    "description": "Mission de contrôle technique dans le cadre de la rénovation des bâtiments du parc des expositions.",
+    "buyer": {"reason": "SAEM du Parc des Expositions de MULHOUSE", "emails": [], "nuts": []},
+    "closedBy": "2026-06-26T10:00:00Z",
+    "market": "SERVICES",
+    "procedure": {"label": ""},
+    "attachments": []
+  }
+}
