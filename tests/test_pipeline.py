@@ -10,9 +10,19 @@ from veille_marches.signals import SignalPublisher
 class FakeTwenty:
     def __init__(self):
         self.created = []
+        self.signals = []
+        self.collectivites = []
 
-    def create_signal(self, name, type_signal, statut="NOUVEAU", action_suggeree=None):
+    def find_one(self, obj, field, value):
+        return None  # force la création de la collectivité acheteuse
+
+    def create(self, obj, data):
+        self.collectivites.append(data)
+        return {"id": f"col{len(self.collectivites)}"}
+
+    def create_signal(self, name, type_signal, statut="NOUVEAU", action_suggeree=None, **fields):
         self.created.append(name)
+        self.signals.append({"name": name, **fields})
         return {"id": f"sig{len(self.created)}"}
 
 
@@ -58,6 +68,8 @@ def test_full_pipeline_posts_only_relevant_new(fake_poster, tmp_path, monkeypatc
     assert res.signals_created == 1
     assert len(posts) == 1
     assert fake_twenty.created  # signal créé
+    assert fake_twenty.collectivites  # collectivité acheteuse créée
+    assert fake_twenty.signals[-1].get("collectiviteId")  # signal relié à la collectivité (1dhk)
 
 
 def test_idempotent_no_repost(fake_poster, tmp_path, monkeypatch):

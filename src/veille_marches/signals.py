@@ -9,6 +9,8 @@ continue (la veille Basecamp reste prioritaire).
 """
 from __future__ import annotations
 
+import re
+
 from .analyzer import Analysis
 from .config import Config
 from .scraper import Consultation
@@ -18,11 +20,32 @@ try:  # le client partagé est packagé ; import paresseux pour les tests
 except Exception:  # pragma: no cover - dépend de l'install
     TwentyClient = None  # type: ignore[assignment]
 
+_EPCI_RE = re.compile(r"m[ée]tropole|agglom|communaut[ée]|\bCC\b|\bCA\b|\bCU\b|EPCI", re.I)
+
 
 def signal_name(consultation: Consultation) -> str:
     buyer = consultation.buyer or "Acheteur inconnu"
     short = consultation.title[:60]
     return f"{buyer} — {short}"
+
+
+def _link_collectivite(client, buyer: str) -> dict:
+    """Retrouve (ou crée) la collectivité acheteuse → {collectiviteId} (issue 1dhk).
+
+    Vide si l'acheteur est inconnu. Crée une collectivité légère (nom + type) si
+    elle n'existe pas encore — chaque marché révèle un prospect.
+    """
+    name = (buyer or "").strip()
+    if not name or name.lower() == "acheteur inconnu":
+        return {}
+    try:
+        col = client.find_one("collectivites", "name", name)
+        if col is None:
+            typ = "EPCI" if _EPCI_RE.search(name) else "COMMUNE"
+            col = client.create("collectivites", {"name": name, "typeCollectivite": typ})
+        return {"collectiviteId": col["id"]}
+    except Exception:  # noqa: BLE001 - le lien est best-effort, ne bloque pas le signal
+        return {}
 
 
 class SignalPublisher:
@@ -49,10 +72,12 @@ class SignalPublisher:
         if not self.available:
             return None
         client = self._get_client()
+        extra = _link_collectivite(client, consultation.buyer)
         return client.create_signal(
             name=signal_name(consultation),
             type_signal="MARCHE_PUBLIC",
             statut="NOUVEAU",
             action_suggeree=analysis.action_suggeree
             or f"Analyser le DCE / décider go-no-go (clôture {consultation.closing_date or '—'})",
+            **extra,
         )
